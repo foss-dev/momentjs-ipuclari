@@ -139,8 +139,6 @@ Kullanılan parser sembolleri (tokens) tıpkı `moment#format` fonksiyonunda old
 
 ## Hafta, Haftanın Günü ve Yılın Haftası İçin Semboller
 
-For these, the lowercase tokens use the locale aware week start days, and the uppercase tokens use the ISO week date start days.
-
 Aşağıda yer alan küçük harflerle belirtili semboller yerel hafta günlerini kullanır. Büyük harfle belirtilmiş olan semboller ise [ISO standartlarına göre](https://en.wikipedia.org/wiki/ISO_week_date) haftanın gününü belirtir.
 
 | Giriş        | Örnek           | Açıklama     |
