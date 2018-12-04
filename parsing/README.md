@@ -152,3 +152,77 @@ Aşağıda yer alan küçük harflerle belirtili semboller yerel hafta günlerin
 | GG           | 18    | 2 karakter ISO Standartlarına göre haftanın yılı |
 | W WW           | 1..53    | ISO Standartlarına göre Yılın hafta sayısı |
 | E | 1..7    | ISO Standartlarına göre haftanın kaçıncı günü |
+
+## Saat, Dakika, Saniye, Milisaniye ve Offset Sembolleri
+
+| Giriş        | Örnek           | Açıklama     |
+| ------------ |:---------------:| ------------:|
+| H HH         | 0..23  | 24 saatlik dilimi temsil eder |
+| h hh         | 1..12  | a ya da A ile kullanıldığında 12 saatlik dilimi temsil eder. |
+| k kk         | 1..24  | 24 saatlik dilimi temsil eder. Farklı olarak değer 1'den başlar. |
+| a A         | am pm  | Öğleden öncesi ve öğleden sonrası olarak temsil edilir. [1](https://eksisozluk.com/post-meridiem--202275) [2](https://eksisozluk.com/ante-meridiem--202274) |
+| m mm         | 0..59  | Dakikaları temsil eder |
+| s ss         | 0..59  | Saniyeleri temsil eder |
+| S SS SSS         | 0..999  | Kesirli saniyeleri verir |
+| Z ZZ         | +12:00  | Offset yani saat farkını belirtmek için kullanılır [1](https://tr.wikipedia.org/wiki/UTC_offset) |
+
+::: warning UYARI
+**2.10.5** sürümünden itibaren: Kesirli saniyelerde, kesirli saniyeye belirten sembollerin uzunluğu 4 karakterden 9 karaktere kadar uzayabilir. Ancak sadece ilk 3'ü dikkate alınacaktır.
+:::
+
+::: tip BİLGİ
+Açıkca bir saat dilimi belirtmediğiniz sürece, verilen değer geçerli zaman dilimini kullanarak parsing işlemine tabi tutulur.
+:::
+
+**Örnek**
+
+```js
+moment("2010-10-20 4:30",       "YYYY-MM-DD HH:mm");   // 4:30 yerel saat parse edildi
+moment("2010-10-20 4:30 +0000", "YYYY-MM-DD HH:mm Z"); // 4:30 UTC zamanı olarak parse edildi
+```
+
+::: tip BİLGİ
+Eğer moment'e verilen tarih gerçekte yoksa `moment#isValid` fonksiyonu **false** değeri dönecektir.
+:::
+
+**Örnek**
+
+```js
+moment("2010 13",           "YYYY MM").isValid();     // false (geçerli bir ay değil)
+moment("2010 11 31",        "YYYY MM DD").isValid();  // false (geçerli bir gün değil)
+moment("2010 2 29",         "YYYY MM DD").isValid();  // false (artık gün değil)
+moment("2010 biraydegil 29", "YYYY MMM DD").isValid(); // false (geçerli bir ay adı değil)
+```
+
+::: tip BİLGİ
+**2.0.0** sürümünden itibaren dil sembolü *(örnek: tr)* `moment()` ve `moment#utc` fonksiyonlarına üçüncü parametre olarak atanabilir.
+:::
+
+```js
+moment('2012 July', 'YYYY MMM', 'en');
+moment('2012 Ocak',    'YYYY MMM', 'tr');
+```
+
+::: warning DİKKAT
+Moment parser'ı biraz dikkatsiz davranabilir. Bu yüzden aşağıdakine benzer durumlara karşı dikkatli olmanız gerekmektedir.
+:::
+
+**Örnek**
+
+```js
+moment('2016 bir tarihtir', 'YYYY-MM-DD').isValid() 
+// true dönecektir çünkü 2016 tarihle eşleşiyor.
+```
+
+Bunu aşmak için **2.3.0** sürümüyle birlikte gelen katı modda parse etme işlemini uygulayabilirsiniz. Üçüncü parametre olarak boolean türünden bir değer bu iş için yardımcı olacaktır.
+
+**Örnek**
+
+```js
+moment('2016 bir tarihtir', 'YYYY-MM-DD', true).isValid() 
+// false dönecektir. Çünkü geçerli bir tarih değil
+```
+
+## Özel Formatlar
+
+Burası doldurulacak...
